@@ -18,7 +18,7 @@ try {
 	const reposResponse = await fetch(`https://api.github.com/users/${profileData.githubUsername}/repos?sort=updated&per_page=6`, { headers: { Accept: 'application/vnd.github+json' } });
 	if (reposResponse.ok) {
 		repos = (await reposResponse.json())
-			.filter((repo) => !repo.private)
+			.filter((repo) => !repo.private && !repo.fork && !repo.archived)
 			.slice(0, 6)
 			.map((repo) => ({
 				name: repo.name,
@@ -60,6 +60,7 @@ const projects = [
 				<div class="hero-copy">
 					<p class="eyebrow">Application Developer</p>
 					<h1>Febri <span>Winando</span></h1>
+					<p class="hero-summary">I build web applications, APIs, and Android solutions that make real-world work simpler.</p>
 					<p class="hero-meta">Indonesia · Remote</p>
 					<div class="hero-actions">
 						<a href="#gallery">View gallery</a>
@@ -79,11 +80,11 @@ const projects = [
 			<section class="experience" id="experience">
 				<p class="eyebrow">Experience</p>
 				<ul class="timeline">
-					<li><span>2013</span><em>Guru Privat</em></li>
-					<li><span>2013-2015</span><em>Asisten Lab Komputer, FMIPA USU</em></li>
-					<li><span>2016-2017</span><em>IT Staff, Yayasan Perkantas</em></li>
+					<li><span>2013</span><em>Private Tutor</em></li>
+					<li><span>2013-2015</span><em>Computer Lab Assistant, FMIPA USU</em></li>
+					<li><span>2016-2017</span><em>IT Staff, Perkantas Foundation</em></li>
 					<li><span>2017-2018</span><em>Regional Application Support</em></li>
-					<li><span>2021 - Now</span><em>PNS Kota Tebing Tinggi</em></li>
+					<li><span>2021 - Now</span><em>Civil Servant, Tebing Tinggi City</em></li>
 				</ul>
 			</section>
 
@@ -105,8 +106,26 @@ const projects = [
 				</div>
 			</section>
 
+			<section class="build-services" aria-label="What I build">
+				<div class="section-heading">
+					<p class="eyebrow">What I build</p>
+					<p class="section-description">From complex workflows to easy-to-use interfaces.</p>
+				</div>
+				<div class="service-list">
+					{services.map((service) => (
+						<article class="service-item">
+							<span>{service.number}</span>
+							<div><h2>{service.title}</h2><p>{service.body}</p></div>
+						</article>
+					))}
+				</div>
+			</section>
+
 			<section class="repos" aria-label="Public repositories">
-				<p class="eyebrow">Public repositories</p>
+				<div class="section-heading">
+					<p class="eyebrow">Selected GitHub work</p>
+					<a class="section-link" href={profileData.githubUrl} target="_blank" rel="noreferrer">See all repositories ↗</a>
+				</div>
 				<div class="repo-list">
 					{repos.length > 0 ? repos.map((repo) => (
 						<a class="repo-item" href={repo.url} target="_blank" rel="noreferrer">
@@ -138,14 +157,14 @@ const projects = [
 			</section>
 
 			<section class="personal-note" aria-label="Personal aspiration">
-				<p class="eyebrow">Cita-cita</p>
-				<h2>Menjadi Presiden Indonesia</h2>
+				<p class="eyebrow">Personal aspiration</p>
+				<h2>To become President of Indonesia</h2>
 			</section>
 
 			<section class="support" id="support" aria-label="Support my work">
 				<div>
 					<p class="eyebrow">Support my work</p>
-					<h2>Terima kasih atas dukungan Anda.</h2>
+					<h2>Thank you for your support.</h2>
 				</div>
 				<div class="support-method">
 					<span>ShopeePay</span>
@@ -174,6 +193,15 @@ const projects = [
 							<h3>Designing practical engineering workflows</h3>
 						</div>
 					</a>
+				</div>
+			</section>
+
+			<section class="contact-cta" aria-label="Contact">
+				<p class="eyebrow">Have a project in mind?</p>
+				<h2>Let’s build something useful.</h2>
+				<div class="contact-cta-links">
+					<a href={`mailto:${profileData.email}`}>Start a conversation ↗</a>
+					<a href="https://wa.me/6285762183448" target="_blank" rel="noreferrer">WhatsApp ↗</a>
 				</div>
 			</section>
 
