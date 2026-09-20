@@ -19,6 +19,7 @@ try {
 	if (reposResponse.ok) {
 		repos = (await reposResponse.json())
 			.filter((repo) => !repo.private && !repo.fork && !repo.archived)
+			.sort((firstRepo, secondRepo) => new Date(secondRepo.pushed_at).getTime() - new Date(firstRepo.pushed_at).getTime())
 			.slice(0, 6)
 			.map((repo) => ({
 				name: repo.name,
@@ -27,6 +28,7 @@ try {
 				language: repo.language || 'Code',
 				stars: repo.stargazers_count,
 				forks: repo.forks_count,
+				pushedAt: repo.pushed_at,
 			}));
 	}
 } catch { /* GitHub remains optional when offline. */ }
@@ -123,7 +125,7 @@ const projects = [
 
 			<section class="repos" aria-label="Public repositories">
 				<div class="section-heading">
-					<p class="eyebrow">Selected GitHub work</p>
+					<p class="eyebrow">Recently pushed GitHub work</p>
 					<a class="section-link" href={profileData.githubUrl} target="_blank" rel="noreferrer">See all repositories ↗</a>
 				</div>
 				<div class="repo-list">
@@ -138,6 +140,7 @@ const projects = [
 								<span>{repo.language}</span>
 								<span>★ {repo.stars}</span>
 								<span>⎇ {repo.forks}</span>
+								<span>Updated {new Date(repo.pushedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
 							</div>
 						</a>
 					)) : (
