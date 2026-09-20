@@ -48,6 +48,12 @@ h1 { font-size: clamp(70px, 11vw, 154px); line-height: .86; letter-spacing: -.08
 .repo-item p { margin: 0 0 14px; min-height: 42px; font-size: 14px; line-height: 1.5; color: rgba(23, 23, 20, 0.73); }
 .repo-meta { display: flex; flex-wrap: wrap; gap: 12px; font: 11px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .06em; opacity: .7; }
 .repo-empty { padding: 18px; border: 1px dashed var(--line); border-radius: 16px; font: 12px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .08em; opacity: .7; }
+.contributions { padding-top: 72px; }
+.contributions-heading { display: flex; align-items: baseline; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 14px; }
+.contributions-heading .eyebrow { margin: 0; }
+.contributions-heading a { font: 11px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .06em; opacity: .7; }
+.contributions-panel { margin-top: 20px; padding: 24px; overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: rgba(23, 23, 20, 0.025); }
+.contributions-panel img { display: block; width: min(100%, 900px); min-width: 690px; height: auto; margin: auto; filter: sepia(.2) saturate(.7) contrast(.95); }
 .articles { padding-top: 72px; }
 .article-list { display: grid; gap: 14px; margin-top: 20px; }
 .article-item { display: grid; grid-template-columns: 56px 1fr; gap: 20px; align-items: center; padding: 20px 0; border-top: 1px solid var(--line); text-decoration: none; }

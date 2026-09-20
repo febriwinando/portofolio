@@ -127,6 +127,16 @@ const projects = [
 				</div>
 			</section>
 
+			<section class="contributions" aria-label="GitHub contributions">
+				<div class="contributions-heading">
+					<p class="eyebrow">GitHub activity</p>
+					<a href={profileData.githubUrl} target="_blank" rel="noreferrer">View profile ↗</a>
+				</div>
+				<div class="contributions-panel">
+					<img src={`https://ghchart.rshah.org/${profileData.githubUsername}`} alt={`GitHub contribution graph for ${profileData.githubUsername}`} loading="lazy" />
+				</div>
+			</section>
+
 			<section class="articles" id="articles" aria-label="Articles">
 				<p class="eyebrow">Writing</p>
 				<div class="article-list">
