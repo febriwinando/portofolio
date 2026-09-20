@@ -1,0 +1,167 @@
+
+---
+import '../styles/global.css';
+import { db } from '../db/client';
+import { profile } from '../db/schema';
+
+const fallbackProfile = {
+	name: 'Febri Winando', role: 'Application Developer', bio: 'I design and build dependable web applications that turn complex workflows into useful, human experiences.', location: 'Indonesia · Open to remote', email: 'febriwinando@gmail.com', avatarUrl: 'https://github.com/febriwinando.png', githubUsername: 'febriwinando', githubUrl: 'https://github.com/febriwinando',
+};
+const savedProfile = db ? (await db.select().from(profile).limit(1))[0] : undefined;
+const profileData = savedProfile ?? fallbackProfile;
+let github = null;
+let repos = [];
+try {
+	const githubResponse = await fetch(`https://api.github.com/users/${profileData.githubUsername}`, { headers: { Accept: 'application/vnd.github+json' } });
+	if (githubResponse.ok) github = await githubResponse.json();
+
+	const reposResponse = await fetch(`https://api.github.com/users/${profileData.githubUsername}/repos?sort=updated&per_page=6`, { headers: { Accept: 'application/vnd.github+json' } });
+	if (reposResponse.ok) {
+		repos = (await reposResponse.json())
+			.filter((repo) => !repo.private)
+			.slice(0, 6)
+			.map((repo) => ({
+				name: repo.name,
+				description: repo.description || 'Public repository',
+				url: repo.html_url,
+				language: repo.language || 'Code',
+				stars: repo.stargazers_count,
+				forks: repo.forks_count,
+			}));
+	}
+} catch { /* GitHub remains optional when offline. */ }
+
+const services = [
+	{ number: '01', title: 'Web applications', body: 'Reliable, maintainable applications shaped around real people and real workflows.' },
+	{ number: '02', title: 'Backend systems', body: 'Clear APIs, data models, and integrations that keep products moving.' },
+	{ number: '03', title: 'Product interfaces', body: 'Thoughtful frontend experiences that make powerful software feel simple.' },
+];
+
+const projects = [
+	{ title: 'Berdua', type: 'Family / Togetherness', year: '2024', color: 'coral', image: '/berdua.jpg' },
+	{ title: 'Kaldera', type: 'Travel / Nature', year: '2023', color: 'lime', image: '/kaldera.jpg' },
+	{ title: 'Bersama', type: 'Moments / Memory', year: '2023', color: 'blue', image: '/bersama.jpg' },
+];
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={`${profileData.name} — ${profileData.role}. ${profileData.bio}`} />
+		<title>{profileData.name} — {profileData.role}</title>
+	</head>
+	<body>
+		<header class="nav shell"><a class="wordmark" href="#top" aria-label={`${profileData.name} home`}>FW<span>®</span></a><nav aria-label="Primary navigation"><a href="#experience">Experience</a><a href="#gallery">Gallery</a><a href="#articles">Articles</a></nav><div class="nav-actions"><a class="nav-cta" href={profileData.githubUrl} target="_blank" rel="noreferrer">GitHub</a></div></header>
+		<main id="top" class="shell main-shell">
+			<section class="hero">
+				<div class="hero-copy">
+					<p class="eyebrow">Application Developer</p>
+					<h1>Febri <span>Winando</span></h1>
+					<p class="hero-meta">Indonesia · Remote</p>
+					<div class="hero-actions">
+						<a href="#gallery">View gallery</a>
+					</div>
+					<div class="contact-pills">
+						<a href="https://wa.me/6285762183448" target="_blank" rel="noreferrer">WhatsApp</a>
+						<a href={`mailto:${profileData.email}`}>{profileData.email}</a>
+					</div>
+					<div class="github-identity">
+						<span class="github-label">GitHub</span>
+						<a href={profileData.githubUrl} target="_blank" rel="noreferrer">github.com/{profileData.githubUsername}</a>
+					</div>
+				</div>
+				<div class="hero-visual"><img src={github?.avatar_url ?? profileData.avatarUrl} alt={`${profileData.name} portrait`} /></div>
+			</section>
+
+			<section class="experience" id="experience">
+				<p class="eyebrow">Experience</p>
+				<ul class="timeline">
+					<li><span>2013</span><em>Guru Privat</em></li>
+					<li><span>2013-2015</span><em>Asisten Lab Komputer, FMIPA USU</em></li>
+					<li><span>2016-2017</span><em>IT Staff, Yayasan Perkantas</em></li>
+					<li><span>2017-2018</span><em>Regional Application Support</em></li>
+					<li><span>2021 - Now</span><em>PNS Kota Tebing Tinggi</em></li>
+				</ul>
+			</section>
+
+			<section class="skills" aria-label="Technical skills">
+				<p class="eyebrow">Engineer skills</p>
+				<div class="skill-list">
+					<span>Laravel</span>
+					<span>Yii</span>
+					<span>CodeIgniter</span>
+					<span>PHP</span>
+					<span>MySQL</span>
+					<span>REST API</span>
+					<span>Android</span>
+					<span>Kotlin</span>
+					<span>Java</span>
+					<span>Git</span>
+					<span>Docker</span>
+					<span>Linux</span>
+				</div>
+			</section>
+
+			<section class="repos" aria-label="Public repositories">
+				<p class="eyebrow">Public repositories</p>
+				<div class="repo-list">
+					{repos.length > 0 ? repos.map((repo) => (
+						<a class="repo-item" href={repo.url} target="_blank" rel="noreferrer">
+							<div class="repo-head">
+								<span class="repo-name">{repo.name}</span>
+								<span class="repo-arrow">↗</span>
+							</div>
+							<p>{repo.description}</p>
+							<div class="repo-meta">
+								<span>{repo.language}</span>
+								<span>★ {repo.stars}</span>
+								<span>⎇ {repo.forks}</span>
+							</div>
+						</a>
+					)) : (
+						<div class="repo-empty">GitHub public repositories are unavailable right now.</div>
+					)}
+				</div>
+			</section>
+
+			<section class="articles" id="articles" aria-label="Articles">
+				<p class="eyebrow">Writing</p>
+				<div class="article-list">
+					<a href="#top" class="article-item">
+						<span>01</span>
+						<div>
+							<h3>Building maintainable backend systems</h3>
+						</div>
+					</a>
+					<a href="#top" class="article-item">
+						<span>02</span>
+						<div>
+							<h3>Lessons from Android and API integration work</h3>
+						</div>
+					</a>
+					<a href="#top" class="article-item">
+						<span>03</span>
+						<div>
+							<h3>Designing practical engineering workflows</h3>
+						</div>
+					</a>
+				</div>
+			</section>
+
+			<section class="gallery" id="gallery">
+				<p class="eyebrow">Gallery</p>
+				<div class="gallery-grid">
+					{[profileData.avatarUrl, '/sendiri.jpg', '/berdua.jpg', '/kaldera.jpg', '/bersama.jpg'].map((image, index) => (
+						<figure class="photo-card" key={index}>
+							<img src={image} alt={`${profileData.name} photo ${index + 1}`} loading={index === 0 ? 'eager' : 'lazy'} />
+						</figure>
+					))}
+				</div>
+			</section>
+		</main>
+		<footer class="footer shell"><p>© 2026 {profileData.name}</p><div class="footer-links"><a href="https://wa.me/6285762183448" target="_blank" rel="noreferrer">085762183448</a><a href={`mailto:${profileData.email}`}>{profileData.email}</a></div></footer>
+	</body>
+</html>
