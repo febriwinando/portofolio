@@ -54,6 +54,13 @@ h1 { font-size: clamp(70px, 11vw, 154px); line-height: .86; letter-spacing: -.08
 .contributions-heading a { font: 11px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .06em; opacity: .7; }
 .contributions-panel { margin-top: 20px; padding: 24px; overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: rgba(23, 23, 20, 0.025); }
 .contributions-panel img { display: block; width: min(100%, 900px); min-width: 690px; height: auto; margin: auto; filter: sepia(.2) saturate(.7) contrast(.95); }
+.personal-note { padding-top: 72px; }
+.personal-note h2 { margin: 18px 0 0; max-width: 780px; font-size: clamp(42px, 6vw, 88px); line-height: .95; letter-spacing: -.08em; font-weight: 500; }
+.support { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-top: 72px; padding: 28px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.support h2 { margin: 16px 0 0; max-width: 450px; font-size: clamp(28px, 4vw, 52px); line-height: .98; letter-spacing: -.07em; font-weight: 500; }
+.support-method { display: grid; gap: 8px; min-width: 220px; padding: 18px 20px; border: 1px solid var(--ink); border-radius: 16px; background: var(--acid); }
+.support-method span { font: 11px 'DM Mono', monospace; text-transform: uppercase; letter-spacing: .08em; }
+.support-method strong { font: 21px 'DM Mono', monospace; letter-spacing: -.05em; }
 .articles { padding-top: 72px; }
 .article-list { display: grid; gap: 14px; margin-top: 20px; }
 .article-item { display: grid; grid-template-columns: 56px 1fr; gap: 20px; align-items: center; padding: 20px 0; border-top: 1px solid var(--line); text-decoration: none; }
